@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List Items</title>
+</head>
+<body>
+    <h1>Items</h1>
+    <ul>
+        {% for item in items %}
+        <li>{{ item.name }} - ${{ item.price }} - Benefits: {{ item.benefits }}</li>
+        {% endfor %}
+    </ul>
+    <p>Total Benefits: {{ total_benefits }}</p>
+    <a href="{% url 'add_item' %}">Add New Item</a>
+</body>
+</html>

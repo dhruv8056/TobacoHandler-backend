@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List Records</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .footer-row td {
+            font-weight: bold;
+            text-align: right;
+            background-color: #f1f1f1;
+        }
+        .footer-row td:first-child {
+            text-align: left;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Records</h1>
+        <div>
+            <a href="{% url 'list_records' %}?today_only=1">Show Today's Data</a> | 
+            <a href="{% url 'list_records' %}">Show All Data</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Client Name</th>
+                    <th>Date Created</th>
+                    <th>Items</th>
+                    <th>Total Amount</th>
+                    <th>Total Benefits</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in record_details %}
+                <tr>
+                    <td>{{ record.client_name }}</td>
+                    <td>{{ record.date_created }}</td>
+                    <td>
+                        {% for item in record.items %}
+                            {{ item.item.name }} (Quantity: {{ item.quantity }})<br>
+                        {% endfor %}
+                    </td>
+                    <td>{{ record.total_amount }}</td>
+                    <td>{{ record.total_benefits }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr class="footer-row">
+                    <td>Total</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ total_amount }}</td>
+                    <td>{{ total_benefits }}</td>
+                </tr>
+            </tfoot>
+        </table>
+        <a href="{% url 'create_record' %}">Create New Record</a>
+    </div>
+</body>
+</html>
